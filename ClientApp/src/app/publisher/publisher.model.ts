@@ -1,26 +1,22 @@
 export class Publisher {
 
   public id: number;
-  public firstName : string;
-  public lastName: string;
-  public streetNumber: string;
-  public streetName: string;
-  public city: string;
-  public state: string;
+  public address: string;
+  public name: string;
+  public phone: string;
+  public email: string;
 
-  constructor(id:number,
-    firstName:string,
-    lastName: string,
-    streetNumber: string,
-    streetName: string,
-    city: string,
-    state: string){
+  constructor(
+    id:number,
+    name:string,
+    address: string,
+    phone: string,
+    email: string
+    ){
     this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.streetNumber = streetNumber;
-    this.streetName = streetName;
-    this.city = city;
-    this.state = state;
+    this.name = name;
+    this.address = address;
+    this.phone = phone;
+    this.email = email;
   }
 }

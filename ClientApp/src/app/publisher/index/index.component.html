@@ -1,1 +1,33 @@
-<p>index works!</p>
+<div>
+<h1  style="margin-left: 5%; margin-top: 5%;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" class="text-primary">Publishers</h1>
+
+<div class="text-right">
+<i class="bi bi-plus-circle"></i>
+<button type="button" class="btn btn-primary btn-lg" style="margin-right: 5%; font-family:Georgia, 'Times New Roman', Times, serif"><span class="glyphicon glyphicon-plus"></span> Create </button>
+
+</div>
+<div style="margin-left: 5%; margin-right: 5%;">
+  <table class="table table-striped" >
+    <thead>
+      <tr style="font-family:Georgia, 'Times New Roman', Times, serif">
+        <th scope="col" >#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Settings</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of publishers" style="font-family:Georgia, 'Times New Roman', Times, serif">
+        <th scope="row">1</th>
+        <td>{{item.name}}</td>
+        <td>{{item.phone}}</td>
+        <div style ="padding-top: 5px; padding-bottom: 5px;">
+          <span class="btn btn-warning glyphicon glyphicon-pencil"></span>
+          <span class="btn btn-danger glyphicon glyphicon glyphicon-trash" style="margin-left: 1%;margin-right: 1%;"></span>
+          <span class="btn btn-primary glyphicon glyphicon-eye-open"></span>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>

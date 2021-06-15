@@ -7,14 +7,12 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class PublisherService {
   api: string = "https://localhost:44358/Publisher";
-  //private httpHeaders: HttpHeaders;
 
   constructor(private httpClient: HttpClient) {
-    //this.httpHeaders =  new HttpHeaders({ 'Accept': 'application/json','Content-Type': 'application/json' });
    }
 
-  GetAll() {
-    return this.httpClient.get(this.api);
+  GetAll(pageSize: number, pageNumber: number) {
+    return this.httpClient.get(this.api + "?pageSize=" + pageSize + "&&pageNumber="  + pageNumber);
   }
 
   Details(id: number): Observable<any> {

@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { HttpClientModule } from '@angular/common/http';
 import { PublisherService } from './publisher/publisher.service';
@@ -15,10 +16,12 @@ import { PublisherService } from './publisher/publisher.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    PublisherModule
+    PublisherModule,
+    GridModule
   ],
   providers: [
-    PublisherService
+    PublisherService,
+    GridModule
   ],
   bootstrap: [AppComponent]
 })
