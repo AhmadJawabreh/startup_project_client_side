@@ -1,3 +1,4 @@
+import { PublisherService } from './../publisher.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+  constructor(private publisherService : PublisherService) { }
 
   ngOnInit(): void {
+    this.publisherService.Details(1).subscribe((Data: any) =>{
+      console.log(Data);
+    });
   }
 
 }
