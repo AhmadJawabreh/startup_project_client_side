@@ -3,14 +3,16 @@
 
 <div class="text-right">
 <i class="bi bi-plus-circle"></i>
-<button type="button" class="btn btn-primary btn-lg" style="margin-right: 5%; font-family:Georgia, 'Times New Roman', Times, serif"><span class="glyphicon glyphicon-plus"></span> Create </button>
+<button  [routerLink]="['/publisher/add']" type="button" class="btn btn-primary btn-lg" style="margin-right: 5%; font-family:Georgia, 'Times New Roman', Times, serif">
+  <span class="glyphicon glyphicon-plus"></span>
+  Create
+</button>
 
 </div>
 <div style="margin-left: 5%; margin-right: 5%;">
   <table class="table table-striped" >
     <thead>
       <tr style="font-family:Georgia, 'Times New Roman', Times, serif">
-        <th scope="col" >#</th>
         <th scope="col">Name</th>
         <th scope="col">Phone</th>
         <th scope="col">Settings</th>
@@ -18,13 +20,12 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of publishers" style="font-family:Georgia, 'Times New Roman', Times, serif">
-        <th scope="row">1</th>
         <td>{{item.name}}</td>
         <td>{{item.phone}}</td>
         <div style ="padding-top: 5px; padding-bottom: 5px;">
-          <span class="btn btn-warning glyphicon glyphicon-pencil"></span>
-          <span class="btn btn-danger glyphicon glyphicon glyphicon-trash" style="margin-left: 1%;margin-right: 1%;"></span>
-          <span class="btn btn-primary glyphicon glyphicon-eye-open"></span>
+          <span class="btn btn-warning glyphicon glyphicon-pencil"  [routerLink]="['/publisher/update',item.id]"></span>
+          <span class="btn btn-primary glyphicon glyphicon-eye-open" style="margin-left: 1%;margin-right: 1%;"  [routerLink]="['/publisher/details',item.id]"></span>
+          <span class="btn btn-danger glyphicon glyphicon glyphicon-trash"  onclick=""></span>
         </div>
       </tr>
     </tbody>

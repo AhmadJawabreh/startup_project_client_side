@@ -5,7 +5,6 @@ export class Publisher {
   public name: string;
   public phone: string;
   public email: string;
-
   constructor(
     id:number,
     name:string,

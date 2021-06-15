@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PublisherService } from './publisher/publisher.service';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
