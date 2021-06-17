@@ -28,7 +28,7 @@ export class EditComponent implements OnInit {
       this.publisherResource = response;
       console.log(this.publisherResource);
       this.publisherForm = new FormGroup({
-        firstName: new FormControl('',[Validators.required,Validators.minLength(5),Validators.maxLength(20)]),
+        firstName: new FormControl(this.publisherResource.firstName,[Validators.required,Validators.minLength(5),Validators.maxLength(20)]),
         lastName: new FormControl(this.publisherResource.lastName,[Validators.required,Validators.minLength(5),Validators.maxLength(20)]),
         email: new FormControl(this.publisherResource.email,Validators.email),
         phone: new FormControl(this.publisherResource.phone,[Validators.minLength(2),Validators.maxLength(10)]),
