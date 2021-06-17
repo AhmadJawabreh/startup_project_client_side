@@ -5,9 +5,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GridModule } from '@progress/kendo-angular-grid';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DialogModule } from "@progress/kendo-angular-dialog";
 
 import { HttpClientModule } from '@angular/common/http';
-import { PublisherService } from './publisher/publisher.service';
+import { PublisherService } from './publisher/services/publisher.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NotificationModule } from '@progress/kendo-angular-notification';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +22,12 @@ import { PublisherService } from './publisher/publisher.service';
     AppRoutingModule,
     HttpClientModule,
     PublisherModule,
-    GridModule
+    MatDialogModule,
+    GridModule,
+    BrowserAnimationsModule,
+    DialogModule,
+    NotificationModule
+
   ],
   providers: [
     PublisherService,

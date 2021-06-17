@@ -1,4 +1,4 @@
-import { Publisher } from './publisher.model';
+import { PublisherModule } from '../publisher.module';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -7,6 +7,13 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class PublisherService {
   api: string = "https://localhost:44358/Publisher";
+
+  public  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Accept':'application/json'
+    })
+  };
 
   constructor(private httpClient: HttpClient) {
    }
@@ -19,16 +26,16 @@ export class PublisherService {
     return this.httpClient.get(this.api + "/" + id);
   }
 
-  Create(publisher: Publisher): Observable<any> {
+  Create(publisher: PublisherModule): Observable<any> {
     return this.httpClient.post(this.api, publisher);
   }
 
-  Update(publisher: Publisher): Observable<any> {
+  Update(publisher: PublisherModule): Observable<any> {
     return this.httpClient.put(this.api, publisher);
   }
 
-  Delete(id: number) {
-    this.httpClient.delete(this.api + "/" + id);
+  Delete(id: number):Observable<any> {
+   return  this.httpClient.delete(this.api + "/" + id);
   }
 
 }

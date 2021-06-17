@@ -1,7 +1,7 @@
-import { Publisher } from './../publisher.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PublisherService } from '../publisher.service';
+import { PublisherResource } from '../resources/publisher.resource';
+import { PublisherService } from '../services/publisher.service';
 
 @Component({
   selector: 'app-details',
@@ -11,19 +11,18 @@ import { PublisherService } from '../publisher.service';
 export class DetailsComponent implements OnInit {
 
   public id: number = 0;
-  public publisher: any;
+  public publisherResource: PublisherResource = <PublisherResource>{};
+
   constructor(private route: ActivatedRoute, private publisherService: PublisherService) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.id = params["id"];
-    });
+    this.id = this.route.snapshot.params.id;
     this.getDate();
   }
 
   getDate(){
     this.publisherService.Details(this.id).subscribe(((response: any) => {
-      this.publisher = response;
+      this.publisherResource = response;
     }));
   }
 

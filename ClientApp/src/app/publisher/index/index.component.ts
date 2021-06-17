@@ -1,6 +1,6 @@
-import { PublisherService } from './../publisher.service';
 import { Component, OnInit } from '@angular/core';
-import { Publisher } from '../publisher.model';
+import { PublisherResource } from '../resources/publisher.resource';
+import { PublisherService } from '../services/publisher.service';
 
 @Component({
   selector: 'app-index',
@@ -11,13 +11,29 @@ export class IndexComponent implements OnInit {
 
   private pageSize = 15;
   private pageNumber = 1;
-  public publishers : Array<Publisher> = [];
+  public publisherResources : Array<PublisherResource> = [];
   constructor(private publisherService : PublisherService) { }
 
+
   ngOnInit(): void {
-    this.publisherService.GetAll(this.pageSize,this.pageNumber).subscribe((reponse: any) =>{
-      this.publishers = reponse;
+
+   this.getDate(this.pageSize,this.pageNumber);
+  }
+
+  getDate(pageSize: number,pageNumber: number){
+    this.publisherService.GetAll(pageSize,pageNumber).subscribe((reponse: any) =>{
+      this.publisherResources = reponse;
      console.log(reponse);
+    });
+  }
+
+
+
+  Delete(id: number){
+    console.log(id);
+    this.publisherService.Delete(id).subscribe((reponse: any) => {
+      this.getDate(this.pageSize,this.pageNumber);
+
     });
   }
 

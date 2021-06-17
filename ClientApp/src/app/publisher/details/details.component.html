@@ -1,26 +1,22 @@
 <div>
-<h1>Publisher Profile</h1>
+<h1  class="text-primary" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;margin-left: 3%;margin-right: 3%; ;border-bottom:3px solid #337ab7; display: inline-block">Publisher Profile</h1>
+<div style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;margin: 3%;font-weight: bold;color:#337ab7">
 
-<div>
-
-  <p>
-    <span>Name: </span>
-    <span>{{publisher.name}}</span>
-  </p>
+  <h2>{{publisherResource.firstName + publisherResource.lastName }}. </h2>
 
   <p>
     <span>Phone:</span>
-    <span>{{ publisher.phone}}</span>
+    <span>{{ publisherResource.phone}}.</span>
   </p>
 
   <p>
     <span>Email:</span>
-    <span>{{ publisher.email}}</span>
+    <span>{{ publisherResource.email}}.</span>
   </p>
 
   <p>
     <span>Address:</span>
-    <span>{{ publisher.address}}</span>
+    <span>{{ publisherResource.address}}.</span>
   </p>
 
 </div>
