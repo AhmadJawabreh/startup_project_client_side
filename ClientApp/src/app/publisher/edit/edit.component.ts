@@ -2,7 +2,7 @@ import { PublisherResource } from './../resources/publisher.resource';
 import { PublisherService } from '../services/publisher.service';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common'
-import {FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { ActivatedRoute } from '@angular/router';
 
@@ -14,63 +14,78 @@ import { ActivatedRoute } from '@angular/router';
 export class EditComponent implements OnInit {
 
   public publisherResource: PublisherResource = <PublisherResource>{};
-  constructor(private route: ActivatedRoute,private publisherService: PublisherService,private notificationService: NotificationService,private location: Location) { }
+  constructor(private route: ActivatedRoute, private publisherService: PublisherService, private notificationService: NotificationService, private location: Location) { }
 
 
 
-  public id : number = 0;
-  public publisherForm: FormGroup = new FormGroup({});
+  public id: number = 0;
+  public publisherForm: FormGroup = new FormGroup({
+    firstName: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]),
+    lastName: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]),
+    email: new FormControl('', Validators.email),
+    phone: new FormControl('', [Validators.minLength(2), Validators.maxLength(10)]),
+    address: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]),
+  });
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.id = this.route.snapshot.params.id;
 
-    this.publisherService.Details(this.id).subscribe((response: any) => {
-      this.publisherResource = response;
-      console.log(this.publisherResource);
-      this.publisherForm = new FormGroup({
-        firstName: new FormControl(this.publisherResource.firstName,[Validators.required,Validators.minLength(5),Validators.maxLength(20)]),
-        lastName: new FormControl(this.publisherResource.lastName,[Validators.required,Validators.minLength(5),Validators.maxLength(20)]),
-        email: new FormControl(this.publisherResource.email,Validators.email),
-        phone: new FormControl(this.publisherResource.phone,[Validators.minLength(2),Validators.maxLength(10)]),
-        address: new FormControl(this.publisherResource.address,[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
-    });
-    });
-
-
-
+    this.publisherService.Details(this.id).subscribe
+    (
+      (response: any) =>
+        {
+         this.publisherResource = response;
+         this.publisherForm.patchValue(
+          {
+            firstName: this.publisherResource.firstName,
+            lastName: this.publisherResource.lastName,
+            email: this.publisherResource.email,
+            phone: this.publisherResource.phone,
+            address: this.publisherResource.address
+          });
+        }
+    );
   }
-  submit(): void {
-
+  submit(): void
+   {
     this.publisherResource.firstName = this.publisherForm.controls['firstName'].value;
     this.publisherResource.lastName = this.publisherForm.controls['lastName'].value;
     this.publisherResource.phone = this.publisherForm.controls['phone'].value;
     this.publisherResource.email = this.publisherForm.controls['email'].value;
     this.publisherResource.address = this.publisherForm.controls['address'].value;
 
-    console.log(this.publisherResource);
-    if(this.publisherForm.valid)
+    if (this.publisherForm.valid)
     {
       this.publisherService.Update(this.publisherResource).subscribe((response: any) => {
-         this.notificationService.show({
-          content: "The Publisher updated Successfully.",
-          hideAfter: 1000,
-          position: { horizontal: "right", vertical: "top" },
-          animation: { type: "fade", duration: 500 },
-          type: { style: "success", icon: true },
-        });
+        this.successMessage();
         this.location.back();
       },
-      (error) => {
-        this.notificationService.show({
-          content: "Cann't update the current publisher.",
-          hideAfter: 1000,
-          position: { horizontal: "right", vertical: "top" },
-          animation: { type: "fade", duration: 500 },
-          type: { style: "error", icon: true },
+        (error) => {
+         this.errorMessage();
         });
-      });
 
     }
+  }
+
+  successMessage(): void {
+    this.notificationService.show({
+      content: "The Publisher updated Successfully.",
+      hideAfter: 1000,
+      position: { horizontal: "right", vertical: "top" },
+      animation: { type: "fade", duration: 500 },
+      type: { style: "success", icon: true },
+    });
+  }
+
+  errorMessage(): void {
+    this.notificationService.show({
+      content: "Cann't update the current publisher.",
+      hideAfter: 1000,
+      position: { horizontal: "right", vertical: "top" },
+      animation: { type: "fade", duration: 500 },
+      type: { style: "error", icon: true },
+    });
   }
 }
 
