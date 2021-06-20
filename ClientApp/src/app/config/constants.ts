@@ -1,4 +1,4 @@
-export class Contstants
+export class Constants
 {
   static PUBLISHER: string = "Publisher/";
   static BOOK: string = "Book/";
