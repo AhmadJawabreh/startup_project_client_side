@@ -47,6 +47,7 @@ export class EditComponent implements OnInit {
         }
     );
   }
+
   submit(): void
    {
     this.publisherResource.firstName = this.publisherForm.controls['firstName'].value;
@@ -58,11 +59,11 @@ export class EditComponent implements OnInit {
     if (this.publisherForm.valid)
     {
       this.publisherService.Update(this.publisherResource).subscribe((response: any) => {
-        this.successMessage();
-        this.location.back();
+        this.successMessage;
+        this.location.back;
       },
         (error) => {
-         this.errorMessage();
+         this.errorMessage;
         });
 
     }
