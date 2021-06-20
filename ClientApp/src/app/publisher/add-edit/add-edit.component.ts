@@ -6,19 +6,20 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { ActivatedRoute } from '@angular/router';
 
+
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  selector: 'app-add-edit',
+  templateUrl: './add-edit.component.html',
+  styleUrls: ['./add-edit.component.css']
 })
-export class EditComponent implements OnInit {
+export class AddEditComponent implements OnInit {
 
   public publisherResource: PublisherResource = <PublisherResource>{};
   constructor(private route: ActivatedRoute, private publisherService: PublisherService, private notificationService: NotificationService, private location: Location) { }
 
 
-
-  public id: number = 0;
+  private id: number = -1;
+  public addMode: boolean = false;
   public publisherForm: FormGroup = new FormGroup({
     firstName: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]),
     lastName: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]),
@@ -27,46 +28,76 @@ export class EditComponent implements OnInit {
     address: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]),
   });
 
-  ngOnInit(): void
-  {
+  ngOnInit(): void {
     this.id = this.route.snapshot.params.id;
-
-    this.publisherService.Details(this.id).subscribe
-    (
-      (response: any) =>
+    this.addMode = this.id > 0 ? false : true;
+    if (!this.addMode) {
+      this.getDetails();
+      this.publisherForm.patchValue(
         {
-         this.publisherResource = response;
-         this.publisherForm.patchValue(
-          {
-            firstName: this.publisherResource.firstName,
-            lastName: this.publisherResource.lastName,
-            email: this.publisherResource.email,
-            phone: this.publisherResource.phone,
-            address: this.publisherResource.address
-          });
-        }
-    );
+          firstName: this.publisherResource.firstName,
+          lastName: this.publisherResource.lastName,
+          email: this.publisherResource.email,
+          phone: this.publisherResource.phone,
+          address: this.publisherResource.address
+        });
+    }
   }
 
-  submit(): void
-   {
+
+  submit(): void {
+    if (this.publisherForm.invalid){
+      return;
+    }
+
     this.publisherResource.firstName = this.publisherForm.controls['firstName'].value;
     this.publisherResource.lastName = this.publisherForm.controls['lastName'].value;
     this.publisherResource.phone = this.publisherForm.controls['phone'].value;
     this.publisherResource.email = this.publisherForm.controls['email'].value;
     this.publisherResource.address = this.publisherForm.controls['address'].value;
 
-    if (this.publisherForm.valid)
-    {
-      this.publisherService.Update(this.publisherResource).subscribe((response: any) => {
-        this.successMessage;
-        this.location.back;
-      },
-        (error) => {
-         this.errorMessage;
-        });
+    this.addMode ? this.createPublisher() : this.updatePublisher();
 
-    }
+  }
+
+  createPublisher(): void {
+    this.publisherService.Create(this.publisherResource).subscribe((response: any) => {
+      this.successMessage();
+      this.location.back();
+    }, (error) => {
+      this.errorMessage();
+    });
+  }
+
+
+  updatePublisher(): void {
+    console.log("pass");
+
+    this.publisherService.Update(this.publisherResource).subscribe((response: any) => {
+      this.successMessage();
+      this.location.back();
+    },
+      (error) => {
+        this.errorMessage();
+      });
+  }
+
+
+  getDetails(): void {
+    this.publisherService.Details(this.id).subscribe
+      (
+        (response: any) => {
+          this.publisherResource = response;
+          this.publisherForm.patchValue(
+            {
+              firstName: this.publisherResource.firstName,
+              lastName: this.publisherResource.lastName,
+              email: this.publisherResource.email,
+              phone: this.publisherResource.phone,
+              address: this.publisherResource.address
+            });
+        }
+      );
   }
 
   successMessage(): void {
@@ -89,4 +120,3 @@ export class EditComponent implements OnInit {
     });
   }
 }
-

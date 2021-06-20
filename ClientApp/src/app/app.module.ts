@@ -15,7 +15,7 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

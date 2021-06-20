@@ -17,8 +17,8 @@ export class Service {
     return this.httpClient.get(this.endPoint + "?pageSize=" + pagination.pageSize + "&&pageNumber=" + pagination.pageNumber);
   }
 
-  Details(id: number): Observable<any> {
-    return this.httpClient.get(this.endPoint + "/" + id);
+  Details(id: any): Observable<any> {
+    return this.httpClient.get(this.endPoint  + id);
   }
 
   Create(publisher: any): Observable<any> {

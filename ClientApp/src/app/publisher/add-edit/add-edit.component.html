@@ -73,7 +73,8 @@
       </div>
 
       <div style="padding: 1%;">
-          <button type="submit" class="btn btn-primary">Add</button>
+          <button type="submit"  class="btn btn-primary" *ngIf="addMode">Add</button>
+          <button type="submit"  class="btn btn-primary" *ngIf="!addMode">Update</button>
       </div>
   </form>
 </div>
