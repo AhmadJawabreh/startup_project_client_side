@@ -71,8 +71,6 @@ export class AddEditComponent implements OnInit {
 
 
   updatePublisher(): void {
-    console.log("pass");
-
     this.publisherService.Update(this.publisherResource).subscribe((response: any) => {
       this.successMessage();
       this.location.back();
