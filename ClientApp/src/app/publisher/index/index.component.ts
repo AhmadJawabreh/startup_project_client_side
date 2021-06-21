@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PublisherResource } from '../resources/publisher.resource';
 import { PublisherService } from '../services/publisher.service';
 import { Config } from 'src/app/config/config';
+import { NotificationManager } from 'src/app/shared/notifications.manager';
 
 @Component({
   selector: 'app-index',
@@ -12,7 +13,7 @@ export class IndexComponent implements OnInit {
 
 
   public publisherResources: Array<PublisherResource> = [];
-  constructor(private publisherService: PublisherService) { }
+  constructor(private publisherService: PublisherService, private notification: NotificationManager) { }
 
 
   ngOnInit(): void {
@@ -27,9 +28,11 @@ export class IndexComponent implements OnInit {
   }
 
   Delete(id: number) {
-    console.log(id);
     this.publisherService.Delete(id).subscribe((reponse: any) => {
       this.getDate();
+      this.notification.successMessage("The Publisher deleted successfully");
+    }, (error) => {
+      this.notification.errorMessage("cannot delete a publisher.");
     });
   }
 

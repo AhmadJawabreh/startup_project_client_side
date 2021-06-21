@@ -13,7 +13,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { PublisherService } from './publisher/services/publisher.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationModule } from '@progress/kendo-angular-notification';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -30,7 +29,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     BrowserAnimationsModule,
     DialogModule,
     NotificationModule,
-    FontAwesomeModule
 
   ],
   providers: [

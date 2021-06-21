@@ -13,26 +13,25 @@ export class IndexComponent implements OnInit {
 
 
   public books: Array<BookModel> = [];
-  constructor(private bookService: BookService, private notification:NotificationManager) { }
+  constructor(private bookService: BookService, private notification: NotificationManager) { }
 
   ngOnInit(): void {
     this.getAll();
   }
 
 
-  getAll(){
+  getAll() {
     this.bookService.GetAll(Config.pagination).subscribe((response: any) => {
       this.books = response;
     });
   }
 
-  delete(id: number)
-  {
-    this.bookService.Delete(id).subscribe( (response: any) => {
+  delete(id: number) {
+    this.bookService.Delete(id).subscribe((response: any) => {
       this.getAll();
       this.notification.successMessage("The book deleted successfully.");
     }, (error) => {
-      this.notification.errorMessage("Error cannt delete the book.");
+      this.notification.errorMessage("Error cannot delete the book.");
     });
   }
 

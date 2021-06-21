@@ -5,9 +5,9 @@ import { NotificationService } from "@progress/kendo-angular-notification";
 
 export class NotificationManager {
 
-  constructor(private notificationService:NotificationService){}
+  constructor(private notificationService: NotificationService) { }
 
-   successMessage(body: string): void {
+  successMessage(body: string): void {
     this.notificationService.show({
       content: body,
       hideAfter: 1000,

@@ -6,10 +6,12 @@ import { Config } from '../config/config';
 
 
 @Injectable({ providedIn: 'root' })
+
+
 export class Service {
   private endPoint: string = "";
 
-  constructor(private httpClient: HttpClient,@Inject(String) private serviceName: string,) {
+  constructor(private httpClient: HttpClient, @Inject(String) private serviceName: string,) {
     this.endPoint = Config.HOST + this.serviceName;
   }
 
@@ -18,7 +20,7 @@ export class Service {
   }
 
   Details(id: any): Observable<any> {
-    return this.httpClient.get(this.endPoint  + id);
+    return this.httpClient.get(this.endPoint + id);
   }
 
   Create(publisher: any): Observable<any> {

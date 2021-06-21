@@ -3,8 +3,8 @@ import { PublisherService } from '../services/publisher.service';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NotificationService } from '@progress/kendo-angular-notification';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationManager } from 'src/app/shared/notifications.manager';
 
 
 @Component({
@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AddEditComponent implements OnInit {
 
   public publisherResource: PublisherResource = <PublisherResource>{};
-  constructor(private route: ActivatedRoute, private publisherService: PublisherService, private notificationService: NotificationService, private location: Location) { }
+  constructor(private route: ActivatedRoute, private publisherService: PublisherService, private notificationManager: NotificationManager, private location: Location) { }
 
 
   private id: number = -1;
@@ -46,7 +46,7 @@ export class AddEditComponent implements OnInit {
 
 
   submit(): void {
-    if (this.publisherForm.invalid){
+    if (this.publisherForm.invalid) {
       return;
     }
 
@@ -62,24 +62,23 @@ export class AddEditComponent implements OnInit {
 
   createPublisher(): void {
     this.publisherService.Create(this.publisherResource).subscribe((response: any) => {
-      this.successMessage();
+      this.notificationManager.successMessage("A publisher created successfully.");
       this.location.back();
     }, (error) => {
-      this.errorMessage();
+      this.notificationManager.errorMessage("cannot create a publisher.");
     });
   }
 
 
   updatePublisher(): void {
     this.publisherService.Update(this.publisherResource).subscribe((response: any) => {
-      this.successMessage();
+      this.notificationManager.successMessage("The Publisher updated Successfully.");
       this.location.back();
     },
       (error) => {
-        this.errorMessage();
+        this.notificationManager.errorMessage("cannot update the current publisher.");
       });
   }
-
 
   getDetails(): void {
     this.publisherService.Details(this.id).subscribe
@@ -96,25 +95,5 @@ export class AddEditComponent implements OnInit {
             });
         }
       );
-  }
-
-  successMessage(): void {
-    this.notificationService.show({
-      content: "The Publisher updated Successfully.",
-      hideAfter: 1000,
-      position: { horizontal: "right", vertical: "top" },
-      animation: { type: "fade", duration: 500 },
-      type: { style: "success", icon: true },
-    });
-  }
-
-  errorMessage(): void {
-    this.notificationService.show({
-      content: "Cann't update the current publisher.",
-      hideAfter: 1000,
-      position: { horizontal: "right", vertical: "top" },
-      animation: { type: "fade", duration: 500 },
-      type: { style: "error", icon: true },
-    });
   }
 }

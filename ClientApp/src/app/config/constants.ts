@@ -1,6 +1,5 @@
-export class Constants
-{
-  static PUBLISHER: string = "Publisher/";
-  static BOOK: string = "Book";
-  static AUTHOR: string ="Author/";
+export class Constants {
+  static readonly PUBLISHER: string = "Publisher/";
+  static readonly BOOK: string = "Book";
+  static readonly AUTHOR: string = "Author/";
 }
