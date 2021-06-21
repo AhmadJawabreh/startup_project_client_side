@@ -1,3 +1,4 @@
+import { BookModule } from './book/book.module';
 import { PublisherModule } from './publisher/publisher.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PublisherService } from './publisher/services/publisher.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotificationModule } from '@progress/kendo-angular-notification';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -22,11 +24,13 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
     AppRoutingModule,
     HttpClientModule,
     PublisherModule,
+    BookModule,
     MatDialogModule,
     GridModule,
     BrowserAnimationsModule,
     DialogModule,
-    NotificationModule
+    NotificationModule,
+    FontAwesomeModule
 
   ],
   providers: [

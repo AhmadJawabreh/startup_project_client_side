@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { IndexComponent } from './index/index.component';
 import { DetailsComponent } from './details/details.component';
 import { AddEditComponent } from './add-edit/add-edit.component';
+import { BookRoutingModule } from './book.routing.module';
+import { DialogModule } from '@progress/kendo-angular-dialog';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -13,7 +16,10 @@ import { AddEditComponent } from './add-edit/add-edit.component';
     AddEditComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    BookRoutingModule,
+    ReactiveFormsModule,
+    DialogModule
   ]
 })
 export class BookModule { }
