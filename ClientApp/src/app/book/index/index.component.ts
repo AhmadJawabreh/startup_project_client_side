@@ -12,6 +12,7 @@ import { NotificationManager } from 'src/app/shared/notifications.manager';
 export class IndexComponent implements OnInit {
 
 
+  public openDialog = false;
   public books: Array<BookModel> = [];
   constructor(private bookService: BookService, private notification: NotificationManager) { }
 
@@ -19,15 +20,12 @@ export class IndexComponent implements OnInit {
     this.getAll();
   }
 
-
-  public opened = false;
-
   public close() {
-    this.opened = false;
+    this.openDialog = false;
   }
 
   public open() {
-    this.opened = true;
+    this.openDialog = true;
   }
 
 

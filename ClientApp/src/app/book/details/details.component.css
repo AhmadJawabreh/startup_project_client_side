@@ -1,0 +1,14 @@
+.title{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: xx-large;
+  margin: 5%;
+  padding:  0.5%;
+  border-bottom:3px solid #337ab7;
+  display: inline-block
+}
+
+.content{
+  margin-left: 5%;
+  color: #337ab7;
+  font-size: larger;
+}

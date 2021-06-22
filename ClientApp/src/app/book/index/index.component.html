@@ -42,22 +42,15 @@
                 <i class="fa fa-trash"></i>
               </button>
 
-              <kendo-dialog
-                title="Delete a book"
-                *ngIf="opened"
-                (close)="close()"
-                [minWidth]="250"
-                [width]="450"
-              >
+              <kendo-dialog title="Delete a book" *ngIf="openDialog" (close)="close()" [minWidth]="250" [width]="450">
                 <p style="margin: 30px; text-align: center;">
-                  Are you sure you want to Delete {{ item.name}}?
+                  Are you sure you want to Delete {{item.name}}?
                 </p>
                 <kendo-dialog-actions>
                   <button kendoButton (click)="close()">No</button>
                   <button kendoButton (click)="delete(item.id)" primary="true">Yes</button>
                 </kendo-dialog-actions>
               </kendo-dialog>
-
             </div>
           </td>
         </tr>
