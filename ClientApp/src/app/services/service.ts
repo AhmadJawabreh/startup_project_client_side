@@ -32,7 +32,7 @@ export class Service {
   }
 
   Delete(id: number): Observable<any> {
-    return this.httpClient.delete(this.endPoint + "/" + id);
+    return this.httpClient.delete(this.endPoint + id);
   }
 
 }

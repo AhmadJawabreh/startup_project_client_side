@@ -6,17 +6,21 @@ import { BookResource } from './../resources/book.resource';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BookService } from './../services/book.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { NotificationManager } from 'src/app/shared/notifications.manager';
 import { BookModel } from '../models/book.model';
-import { Location } from '@angular/common'
+import { DatePipe, Location } from '@angular/common';
 import { AuthorResource } from '../resources/author.resource';
 
 @Component({
   selector: 'app-add-edit',
   templateUrl: './add-edit.component.html',
-  styleUrls: ['./add-edit.component.css']
+  styleUrls: ['./add-edit.component.css'],
+  providers: [DatePipe]
+
 })
+@Injectable({ providedIn: 'root' })
+
 export class AddEditComponent implements OnInit {
 
   private id: number = 0;
@@ -32,32 +36,45 @@ export class AddEditComponent implements OnInit {
     private publisherService: PublisherService,
     private notification: NotificationManager,
     private route: ActivatedRoute,
+    private datePipe: DatePipe,
     private location: Location) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params.id;
-    this.isAddMode = this.id < 0 ? false : true;
+    this.isAddMode = !this.id;
     this.bookForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(35)]),
+      publisherId: new FormControl('', [Validators.required]),
+      publishDate: new FormControl('', [Validators.required]),
+      authorIds: new FormControl('', [Validators.required])
     });
 
     this.getAuthors();
-
     this.getPublishers();
-
     if (!this.isAddMode) {
       this.getDetails();
-      this.bookForm.patchValue({
-        name: this.bookResource.name,
-      });
     }
   }
 
   createBook(): void {
-    this.bookService.Create(this.bookModel).subscribe((reponse: any) => {
-      this.notification.successMessage("A book created successfuly.");
-      this.location.back();
+    this.bookService.Create(this.bookModel).subscribe((response: any) => {
+      console.log(response);
+      if (response.status == 409)
+        this.notification.errorMessage(response.title);
+
+      if (response.status == 400)
+        this.notification.errorMessage(response.title);
+
+      if (response.status == 500)
+        this.notification.errorMessage("Failed to create a book.");
+
+       if(response.status == undefined){
+        this.notification.successMessage("The book created succefully.");
+        this.location.back();
+       }
+
     }, (error: any) => {
+      console.log(console.error);
       this.notification.errorMessage("Failed to create a book.")
     });
   }
@@ -72,8 +89,18 @@ export class AddEditComponent implements OnInit {
   }
 
   getDetails(): void {
-    this.bookService.Details(this.bookModel).subscribe((response: any) => {
-      this.bookModel = response;
+    this.bookService.Details(this.id).subscribe((response: any) => {
+      this.bookResource = response;
+      let dateString = this.bookResource["releaseDate"];
+      let newDate = new Date(dateString);
+     console.log(newDate);
+      this.bookForm.patchValue({
+        name: this.bookResource.name,
+        publisherId: 3,
+        authorIds: this.authors,
+        publishDate: newDate,
+
+      });
     }, (error: any) => {
       this.notification.errorMessage("Failed to fetch the book information.");
     });
@@ -90,20 +117,17 @@ export class AddEditComponent implements OnInit {
   getPublishers(): void {
     this.publisherService.GetAll(Config.pagination).subscribe((response: any) => {
       this.publishers = response;
+      console.log(this.publishers);
     }, (error) => {
       this.notification.errorMessage("Failed to fetch All Publishers.");
     });
   }
 
-  public publisherValue(value: any): void {
+  public selectPublisher(value: any): void {
     this.bookModel.publisherId = value.id;
   }
 
-  public publishValue(value: any): void {
-    this.bookModel.releaseDate = value;
-  }
-
-  public authorsValues(value: any): void {
+  public selectAuthors(value: any): void {
     this.bookModel.authorIds = [];
     value.forEach((element: any) => {
       this.bookModel.authorIds.push(element.id);
@@ -111,10 +135,13 @@ export class AddEditComponent implements OnInit {
   }
 
   submit(): void {
+    this.bookModel.id = this.bookResource.id;
+    this.bookModel.name = this.bookForm.controls['name'].value;
+    this.bookModel.releaseDate = this.bookForm.controls['publishDate'].value;
+    this.bookModel.publisherId = +this.bookForm.controls['publisherId'].value;
+
     if (this.bookForm.invalid)
       return;
-
-    this.bookModel.name = this.bookForm.controls['name'].value;
 
     this.isAddMode ? this.createBook() : this.updateBook();
   }

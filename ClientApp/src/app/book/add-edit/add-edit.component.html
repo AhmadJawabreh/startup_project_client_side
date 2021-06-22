@@ -1,52 +1,74 @@
-<div style="background-color: #337ab7; color: white; padding: 3%; font-size: xx-large;">
-  <span *ngIf="isAddMode"> Create a book</span>
+<div class="header">
   <span *ngIf="!isAddMode"> Update the book</span>
+  <span *ngIf="isAddMode"> Create a book</span>
 </div>
 
-<div style="padding: 2%; background-color: #f6f6f6;">
+<div class="form">
   <form [formGroup]="bookForm" (ngSubmit)="submit()" #bookForm_="ngForm">
-      <div class="form-row">
-          <div class="form-group col-md-4">
-              <label for="inputName"> Name</label>
-              <input type="text" class="form-control" id="name" placeholder="Book Name" name="name" formControlName="name" />
-              <div *ngIf="bookForm_.submitted && (bookForm.controls['name']?.errors?.required || bookForm.controls['name']?.value?.trim().length === 0)" class="alert alert-danger">
-                   Name is required
-              </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputName">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Book Name" name="name" formControlName="name" />
+        <div
+          *ngIf="bookForm_.submitted && (bookForm.controls['name']?.errors?.required || bookForm.controls['name']?.value?.trim().length === 0)"
+          class="alert alert-danger">
+          <p>Name is required</p>
+        </div>
 
-              <div *ngIf="bookForm_.submitted && bookForm.controls['name']?.errors?.minlength && bookForm.controls['name']?.value?.trim().length !== 0" class="alert alert-danger">
-                  Name must be more than 5
-              </div>
-              <div *ngIf="bookForm_.submitted && bookForm.controls['name']?.errors?.maxlength &&  bookForm.controls['name']?.value?.trim().length !== 0" class="alert alert-danger">
-                  Name must be more less than 35
-              </div>
-          </div>
-
-          <div class="form-group col-md-4">
-            <p>Authors:</p>
-            <kendo-multiselect   (valueChange)="authorsValues($event)"   [data]="authors" textField="name" valueField="id"></kendo-multiselect>
-          </div>
-
-
-          <div class="form-row">
-            <div class="col-xs-12 col-md-4">
-              <p>Publisher</p>
-              <kendo-dropdownlist  (valueChange)="publisherValue($event)"  [data]="publishers" textField="firstName" valueField="id"> </kendo-dropdownlist>
-            </div>
-          </div>
-      </div>
-
-
-      <div class="form-row">
-        <div class="col-xs-12">
-          <p>Publish  Date</p>
-          <kendo-calendar (valueChange)="publishValue($event)" [type]="'classic'"></kendo-calendar>
+        <div
+          *ngIf="bookForm_.submitted && bookForm.controls['name']?.errors?.minlength && bookForm.controls['name']?.value?.trim().length !== 0"
+          class="alert alert-danger">
+          <p>Name must be more than 5</p>
+        </div>
+        <div
+          *ngIf="bookForm_.submitted && bookForm.controls['name']?.errors?.maxlength &&  bookForm.controls['name']?.value?.trim().length !== 0"
+          class="alert alert-danger">
+          <p>Name must be more less than 35</p>
         </div>
       </div>
+    </div>
 
-
-      <div style="padding: 1%;">
-          <button type="submit"  class="btn btn-primary" *ngIf="isAddMode">Add</button>
-          <button type="submit"  class="btn btn-primary" *ngIf="!isAddMode">Update</button>
+    <div class="form-row">
+      <div class="form-group col-xs-12 col-md-6">
+        <p>Authors:</p>
+        <kendo-multiselect formControlName="authorIds" (valueChange)="selectAuthors($event)" [data]="authors"
+          textField="name" valueField="id">
+        </kendo-multiselect>
+        <span style="display: inline-block;"
+          *ngIf="bookForm_.submitted && bookForm.controls['authorIds']?.errors?.required" class="alert alert-danger">
+          <span>Authors are required</span>
+        </span>
       </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-xs-12 col-md-6">
+        <p>Publisher</p>
+        <select formControlName="publisherId">
+          <option value="" disabled>Choose a publisher</option>
+          <option *ngFor="let item of publishers" value="{{item.id}}"> {{ item.firstName + " "+item.lastName}} </option>
+        </select>
+        <div style="display: inline-block;"
+          *ngIf="bookForm_.submitted && bookForm.controls['publisherId']?.errors?.required" class="alert alert-danger">
+          <span>Publisher is required</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-xs-12 col-md-6">
+        <p>Publish date</p>
+        <kendo-datepicker formControlName="publishDate"></kendo-datepicker>
+        <div style="display: inline-block;"
+          *ngIf="bookForm_.submitted && bookForm.controls['publishDate']?.errors?.required" class="alert alert-danger">
+          <span>publish date is required</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 1%;">
+      <button type="submit" class="btn btn-primary" *ngIf="isAddMode">Add</button>
+      <button type="submit" class="btn btn-primary" *ngIf="!isAddMode">Update</button>
+    </div>
   </form>
 </div>

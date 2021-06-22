@@ -20,13 +20,26 @@ export class IndexComponent implements OnInit {
   }
 
 
+  public opened = false;
+
+  public close() {
+    this.opened = false;
+  }
+
+  public open() {
+    this.opened = true;
+  }
+
+
   getAll() {
     this.bookService.GetAll(Config.pagination).subscribe((response: any) => {
       this.books = response;
+      console.log(this.books);
     });
   }
 
   delete(id: number) {
+    this.close();
     this.bookService.Delete(id).subscribe((response: any) => {
       this.getAll();
       this.notification.successMessage("The book deleted successfully.");

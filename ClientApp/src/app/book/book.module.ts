@@ -27,6 +27,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
     InputsModule,
     DropDownsModule,
     FormsModule
+
   ]
 })
 export class BookModule { }
