@@ -1,6 +1,6 @@
+import { Filter } from './../shared/filter';
 import { PublisherModel } from './../publisher/models/publisher.model';
 import { BookModel } from './../book/models/book.model';
-import { Pagination } from './../shared/pagination';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Inject, Injectable } from '@angular/core';
@@ -18,8 +18,8 @@ export class Service {
     this.endPoint = Config.HOST + this.serviceName;
   }
 
-  GetAll(pagination: Pagination) {
-    return this.httpClient.get(this.endPoint + "?pageSize=" + pagination.pageSize + "&&pageNumber=" + pagination.pageNumber);
+  GetAll(filter: Filter) {
+    return this.httpClient.get(this.endPoint + "?pageSize=" + filter.pageSize + "&&pageNumber=" + filter.pageNumber);
   }
 
   Details(id: any): Observable<any> {

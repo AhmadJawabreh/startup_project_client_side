@@ -11,7 +11,7 @@ import { NotificationManager } from 'src/app/shared/notification.manager';
 import { BookModel } from '../models/book.model';
 import { Location, DatePipe } from '@angular/common';
 import { AuthorResource } from 'src/app/author/resource/author.resource';
-import { BookFilter } from '../models/book.filter';
+import { Filter } from 'src/app/shared/filter';
 
 @Component({
   selector: 'app-add-edit',
@@ -30,7 +30,7 @@ export class AddEditComponent implements OnInit {
   public bookForm: FormGroup = <FormGroup>{};
   public authors: Array<AuthorResource> = [];
   public publishers: Array<PublisherResource> = [];
-  public bookFilter: BookFilter =  <BookFilter> {};
+  public bookFilter: Filter =  <Filter> {};
 
 
   constructor(private bookService: BookService,
@@ -94,7 +94,6 @@ export class AddEditComponent implements OnInit {
       this.bookResource = response;
       let dateString = this.bookResource["releaseDate"];
       let newDate = new Date(dateString);
-      console.log(response);
       this.bookForm.patchValue({
         name: this.bookResource?.name,
         publisherId: this.bookResource.publisher?.id,
@@ -107,7 +106,7 @@ export class AddEditComponent implements OnInit {
   }
 
   getAuthors(): void {
-    this.authorService.GetAll(Config.pagination).subscribe((response: any) => {
+    this.authorService.GetAll(Config.filter).subscribe((response: any) => {
       this.authors = response;
     }, (error) => {
       this.notification.errorMessage("Failed to fetch All Authors.");
@@ -115,7 +114,7 @@ export class AddEditComponent implements OnInit {
   }
 
   getPublishers(): void {
-    this.publisherService.GetAll(Config.pagination).subscribe((response: any) => {
+    this.publisherService.GetAll(Config.filter).subscribe((response: any) => {
       this.publishers = response;
     }, (error) => {
       this.notification.errorMessage("Failed to fetch All Publishers.");

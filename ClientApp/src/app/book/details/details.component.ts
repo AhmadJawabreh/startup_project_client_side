@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BookService } from './../services/book.service';
 import { Component, OnInit } from '@angular/core';
 import { NotificationManager } from 'src/app/shared/notification.manager';
-import { BookFilter } from '../models/book.filter';
+import { Filter } from 'src/app/shared/filter';
 
 @Component({
   selector: 'app-details',
@@ -14,7 +14,7 @@ export class DetailsComponent implements OnInit {
 
   private id: number = 0;
   public bookResource: BookResource = <BookResource>{};
-  public bookFilter: BookFilter =  <BookFilter> {};
+  public bookFilter: Filter =  <Filter> {};
   constructor(private bookService: BookService, private route: ActivatedRoute, private notification:NotificationManager) { }
 
   ngOnInit(): void {

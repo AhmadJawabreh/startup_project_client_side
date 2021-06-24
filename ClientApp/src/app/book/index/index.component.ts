@@ -1,3 +1,5 @@
+import { BookResource } from './../resources/book.resource';
+import { Filter } from './../../shared/filter';
 import { BookModel } from './../models/book.model';
 import { BookService } from './../services/book.service';
 import { Component, OnInit } from '@angular/core';
@@ -13,7 +15,8 @@ export class IndexComponent implements OnInit {
 
 
   public openDialog = false;
-  public books: Array<BookModel> = [];
+  public books: Array<BookResource> = [];
+  public bookFilter: Filter = <Filter>{};
   constructor(private bookService: BookService, private notification: NotificationManager) { }
 
   ngOnInit(): void {
@@ -30,7 +33,9 @@ export class IndexComponent implements OnInit {
 
 
   getAll() {
-    this.bookService.GetAll(Config.pagination).subscribe((response: any) => {
+    this.bookFilter.authors = true;
+    this.bookFilter.publihser = true;
+    this.bookService.GetAll(Config.filter).subscribe((response: any) => {
       this.books = response;
     });
   }

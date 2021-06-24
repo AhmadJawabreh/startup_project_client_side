@@ -32,7 +32,7 @@ export class IndexComponent implements OnInit {
 
 
   getDate() {
-    this.publisherService.GetAll(Config.pagination).subscribe((reponse: any) => {
+    this.publisherService.GetAll(Config.filter).subscribe((reponse: any) => {
       this.publisherResources = reponse;
     });
   }
