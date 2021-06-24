@@ -10,4 +10,8 @@ export class BookService extends Service {
   constructor(httpClient: HttpClient) {
     super(httpClient, Constants.BOOK);
   }
+
+  getExtraBookDetails(id: number ): Observable<any>{
+    return this.httpClient.get(this.endPoint + "ExtraDetails/" +id) ;
+  }
 }

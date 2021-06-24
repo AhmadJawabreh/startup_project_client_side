@@ -58,6 +58,7 @@
     <div class="form-row">
       <div class="col-xs-12 col-md-6">
         <p>Publish date</p>
+
         <kendo-datepicker formControlName="publishDate"></kendo-datepicker>
         <div style="display: inline-block;"
           *ngIf="bookForm_.submitted && bookForm.controls['publishDate']?.errors?.required" class="alert alert-danger">

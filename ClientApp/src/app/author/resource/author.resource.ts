@@ -1,13 +1,14 @@
 export class AuthorResource {
   public id: number;
+  public email: string;
   public name: string;
   public dateOfBirth: Date;
-  public email: string;
 
-  constructor(id: number, name: string, dateOfBirth: Date, email: string) {
+  constructor(id: number, name: string, email: string, dateOfBirth: Date) {
     this.id = id;
-    this.email = email;
     this.name = name;
+    this.email = email;
     this.dateOfBirth = dateOfBirth;
   }
+
 }

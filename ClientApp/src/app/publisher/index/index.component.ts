@@ -12,6 +12,8 @@ import { NotificationManager } from 'src/app/shared/notifications.manager';
 export class IndexComponent implements OnInit {
 
 
+  public openDialog = false;
+
   public publisherResources: Array<PublisherResource> = [];
   constructor(private publisherService: PublisherService, private notification: NotificationManager) { }
 
@@ -20,6 +22,15 @@ export class IndexComponent implements OnInit {
     this.getDate();
   }
 
+  public close() {
+    this.openDialog = false;
+  }
+
+  public open() {
+    this.openDialog = true;
+  }
+
+
   getDate() {
     this.publisherService.GetAll(Config.pagination).subscribe((reponse: any) => {
       this.publisherResources = reponse;
@@ -27,9 +38,10 @@ export class IndexComponent implements OnInit {
     });
   }
 
-  Delete(id: number) {
+  delete(id: number) {
     this.publisherService.Delete(id).subscribe((reponse: any) => {
       this.getDate();
+      this.close();
       this.notification.successMessage("The Publisher deleted successfully");
     }, (error) => {
       this.notification.errorMessage("cannot delete a publisher.");

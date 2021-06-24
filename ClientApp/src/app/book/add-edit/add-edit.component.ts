@@ -9,14 +9,13 @@ import { BookService } from './../services/book.service';
 import { Component, Injectable, OnInit } from '@angular/core';
 import { NotificationManager } from 'src/app/shared/notifications.manager';
 import { BookModel } from '../models/book.model';
-import { DatePipe, Location } from '@angular/common';
-import { AuthorResource } from '../resources/author.resource';
+import { Location, DatePipe } from '@angular/common';
+import { AuthorResource } from 'src/app/author/resource/author.resource';
 
 @Component({
   selector: 'app-add-edit',
   templateUrl: './add-edit.component.html',
   styleUrls: ['./add-edit.component.css'],
-  providers: [DatePipe]
 
 })
 @Injectable({ providedIn: 'root' })
@@ -36,7 +35,6 @@ export class AddEditComponent implements OnInit {
     private publisherService: PublisherService,
     private notification: NotificationManager,
     private route: ActivatedRoute,
-    private datePipe: DatePipe,
     private location: Location) { }
 
   ngOnInit(): void {
@@ -58,7 +56,7 @@ export class AddEditComponent implements OnInit {
 
   createBook(): void {
     this.bookService.Create(this.bookModel).subscribe((response: any) => {
-      console.log(response);
+      console.log(this.bookModel);
       if (response.status == 409)
         this.notification.errorMessage(response.title);
 
@@ -74,7 +72,6 @@ export class AddEditComponent implements OnInit {
        }
 
     }, (error: any) => {
-      console.log(console.error);
       this.notification.errorMessage("Failed to create a book.")
     });
   }
@@ -89,15 +86,14 @@ export class AddEditComponent implements OnInit {
   }
 
   getDetails(): void {
-    this.bookService.Details(this.id).subscribe((response: any) => {
+    this.bookService.getExtraBookDetails(this.id).subscribe((response: any) => {
       this.bookResource = response;
       let dateString = this.bookResource["releaseDate"];
       let newDate = new Date(dateString);
-     console.log(newDate);
       this.bookForm.patchValue({
         name: this.bookResource.name,
-        publisherId: 3,
-        authorIds: this.authors,
+        publisherId: this.bookResource.publisher.id,
+        authorIds: this.bookResource.authorResources,
         publishDate: newDate,
 
       });
@@ -117,32 +113,32 @@ export class AddEditComponent implements OnInit {
   getPublishers(): void {
     this.publisherService.GetAll(Config.pagination).subscribe((response: any) => {
       this.publishers = response;
-      console.log(this.publishers);
     }, (error) => {
       this.notification.errorMessage("Failed to fetch All Publishers.");
     });
   }
 
-  public selectPublisher(value: any): void {
-    this.bookModel.publisherId = value.id;
-  }
+
 
   public selectAuthors(value: any): void {
-    this.bookModel.authorIds = [];
+    this.bookModel.AuthoIds = [];
     value.forEach((element: any) => {
-      this.bookModel.authorIds.push(element.id);
+      this.bookModel.AuthoIds.push(element.id);
     });
   }
 
+
+
   submit(): void {
+    if (this.bookForm.invalid)
+    return;
+
     this.bookModel.id = this.bookResource.id;
     this.bookModel.name = this.bookForm.controls['name'].value;
     this.bookModel.releaseDate = this.bookForm.controls['publishDate'].value;
     this.bookModel.publisherId = +this.bookForm.controls['publisherId'].value;
-
-    if (this.bookForm.invalid)
-      return;
-
+    var datePipe = new DatePipe('en-US');
+    this.bookModel.releaseDate = datePipe.transform(this.bookModel.releaseDate, 'yyyy-MM-dd') || '';
     this.isAddMode ? this.createBook() : this.updateBook();
   }
 

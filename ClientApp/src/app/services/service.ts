@@ -1,17 +1,20 @@
+import { PublisherModel } from './../publisher/models/publisher.model';
+import { BookModel } from './../book/models/book.model';
 import { Pagination } from './../shared/pagination';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Inject, Injectable } from '@angular/core';
 import { Config } from '../config/config';
+import { AuthorModule } from '../author/author.module';
 
 
 @Injectable({ providedIn: 'root' })
 
 
 export class Service {
-  private endPoint: string = "";
+  public endPoint: string = "";
 
-  constructor(private httpClient: HttpClient, @Inject(String) private serviceName: string,) {
+  constructor(public httpClient: HttpClient, @Inject(String) private serviceName: string,) {
     this.endPoint = Config.HOST + this.serviceName;
   }
 
@@ -23,7 +26,8 @@ export class Service {
     return this.httpClient.get(this.endPoint + id);
   }
 
-  Create(publisher: any): Observable<any> {
+  Create(publisher: BookModel | PublisherModel): Observable<any> {
+    console.log(publisher);
     return this.httpClient.post(this.endPoint, publisher);
   }
 

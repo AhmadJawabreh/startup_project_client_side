@@ -11,21 +11,19 @@
       <span>{{ bookResource.releaseDate | date}}.</span>
     </div>
 
-    <div *ngIf="bookResource?.authors">
+    <div style="margin-top: 1%;">
       <span style="margin-right: 1%;">Authors:</span>
-      <span *ngFor="let item of bookResource.authors">{{ item.name}}</span>
-    </div>
-
-    <div *ngIf="!bookResource?.authors">
-      <span style="margin-right: 1%;">Authors:</span>
-      <span style="margin-right: 1%;">No authors founds.</span>
+      <div  style="margin-top: 1%;" *ngFor="let item of bookResource.authorResources">{{ item.name}}.</div>
     </div>
 
 
-    <div>
+
+    <div style="margin-top: 1%;">
       <span>Publisher: </span>
-      <span style="margin-right: 1%;">{{ bookResource?.publisher?.firstName  }}</span>
-      <span style="margin-right: 1%;">{{ bookResource?.publisher?.lastName  }}</span>
+      <div  style="margin-top: 1%;">
+        <span style="margin-right: 1%;">{{ bookResource?.publisher?.firstName  }}</span>
+        <span style="margin-right: 1%;">{{ bookResource?.publisher?.lastName  }}.</span>
+      </div>
     </div>
 
   </div>

@@ -22,8 +22,9 @@ export class DetailsComponent implements OnInit {
   }
 
   getDetails(){
-    this.bookService.Details(this.id).subscribe((response: any) => {
+    this.bookService.getExtraBookDetails(this.id).subscribe((response: any) => {
       this.bookResource = response;
+      console.log(this.bookResource);
     }, (error: any) => {
       this.notification.errorMessage("Failed to fetch book details.")
     } );
