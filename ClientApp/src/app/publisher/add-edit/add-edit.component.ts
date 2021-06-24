@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NotificationManager } from 'src/app/shared/notifications.manager';
+import { NotificationManager } from 'src/app/shared/notification.manager';
 
 
 @Component({

@@ -7,10 +7,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BookService } from './../services/book.service';
 import { Component, Injectable, OnInit } from '@angular/core';
-import { NotificationManager } from 'src/app/shared/notifications.manager';
+import { NotificationManager } from 'src/app/shared/notification.manager';
 import { BookModel } from '../models/book.model';
 import { Location, DatePipe } from '@angular/common';
 import { AuthorResource } from 'src/app/author/resource/author.resource';
+import { BookFilter } from '../models/book.filter';
 
 @Component({
   selector: 'app-add-edit',
@@ -29,6 +30,8 @@ export class AddEditComponent implements OnInit {
   public bookForm: FormGroup = <FormGroup>{};
   public authors: Array<AuthorResource> = [];
   public publishers: Array<PublisherResource> = [];
+  public bookFilter: BookFilter =  <BookFilter> {};
+
 
   constructor(private bookService: BookService,
     private authorService: AuthorService,
@@ -56,7 +59,6 @@ export class AddEditComponent implements OnInit {
 
   createBook(): void {
     this.bookService.Create(this.bookModel).subscribe((response: any) => {
-      console.log(this.bookModel);
       if (response.status == 409)
         this.notification.errorMessage(response.title);
 
@@ -86,16 +88,18 @@ export class AddEditComponent implements OnInit {
   }
 
   getDetails(): void {
-    this.bookService.getExtraBookDetails(this.id).subscribe((response: any) => {
+    this.bookFilter.authors = true;
+    this.bookFilter.publihser = true;
+    this.bookService.getExtraBookDetails(this.bookFilter,this.id).subscribe((response: any) => {
       this.bookResource = response;
       let dateString = this.bookResource["releaseDate"];
       let newDate = new Date(dateString);
+      console.log(response);
       this.bookForm.patchValue({
-        name: this.bookResource.name,
-        publisherId: this.bookResource.publisher.id,
-        authorIds: this.bookResource.authorResources,
+        name: this.bookResource?.name,
+        publisherId: this.bookResource.publisher?.id,
+        authorIds: this.bookResource?.authorResources,
         publishDate: newDate,
-
       });
     }, (error: any) => {
       this.notification.errorMessage("Failed to fetch the book information.");

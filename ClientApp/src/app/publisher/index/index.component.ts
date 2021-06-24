@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PublisherResource } from '../resources/publisher.resource';
 import { PublisherService } from '../services/publisher.service';
 import { Config } from 'src/app/config/config';
-import { NotificationManager } from 'src/app/shared/notifications.manager';
+import { NotificationManager } from 'src/app/shared/notification.manager';
 
 @Component({
   selector: 'app-index',
@@ -34,7 +34,6 @@ export class IndexComponent implements OnInit {
   getDate() {
     this.publisherService.GetAll(Config.pagination).subscribe((reponse: any) => {
       this.publisherResources = reponse;
-      console.log(reponse);
     });
   }
 

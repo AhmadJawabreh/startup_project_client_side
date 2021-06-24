@@ -2,7 +2,7 @@ import { BookModel } from './../models/book.model';
 import { BookService } from './../services/book.service';
 import { Component, OnInit } from '@angular/core';
 import { Config } from 'src/app/config/config';
-import { NotificationManager } from 'src/app/shared/notifications.manager';
+import { NotificationManager } from 'src/app/shared/notification.manager';
 
 @Component({
   selector: 'app-index',
@@ -32,7 +32,6 @@ export class IndexComponent implements OnInit {
   getAll() {
     this.bookService.GetAll(Config.pagination).subscribe((response: any) => {
       this.books = response;
-      console.log(this.books);
     });
   }
 

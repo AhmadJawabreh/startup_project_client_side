@@ -27,7 +27,6 @@ export class Service {
   }
 
   Create(publisher: BookModel | PublisherModel): Observable<any> {
-    console.log(publisher);
     return this.httpClient.post(this.endPoint, publisher);
   }
 
