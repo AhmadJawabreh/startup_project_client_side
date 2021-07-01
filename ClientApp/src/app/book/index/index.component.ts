@@ -36,6 +36,7 @@ export class IndexComponent implements OnInit {
     this.bookFilter.authors = true;
     this.bookFilter.publihser = true;
     this.bookService.GetAll(Config.filter).subscribe((response: any) => {
+      console.log(response);
       this.books = response;
     });
   }

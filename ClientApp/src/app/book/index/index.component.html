@@ -26,9 +26,9 @@
         <tr *ngFor="let item of books;  let i = index" style="font-family:Georgia, 'Times New Roman', Times, serif">
           <td scope="col-xs-2">{{item.name}}</td>
           <td scope="col-xs-2">{{item.releaseDate | date}}</td>
-          <td scope="col-xs-2">{{item.publisher.firstName +" "+  item.publisher.lastName}}</td>
+          <td scope="col-xs-2">{{item.publisher.firstName +" "+ item.publisher.lastName}}</td>
           <td scope="col-xs-4">
-            <p *ngFor="let _author of item.authorResources"> {{_author.name}}  </p>
+            <p *ngFor="let _author of item.authors"> {{_author.name}} </p>
 
           </td>
           <td>

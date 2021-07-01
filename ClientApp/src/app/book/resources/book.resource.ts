@@ -6,14 +6,14 @@ export class BookResource {
   public name: string;
   public releaseDate: Date;
   public publisher: PublisherResource;
-  public authorResources: Array<AuthorResource>;
+  public authors: Array<AuthorResource>;
 
-  constructor(id: number, name: string, releaseDate: Date, publisher: PublisherResource, authorResources: Array<AuthorResource>) {
+  constructor(id: number, name: string, releaseDate: Date, publisher: PublisherResource, authors: Array<AuthorResource>) {
     this.id = id;
     this.name = name;
     this.releaseDate = releaseDate;
     this.publisher = publisher;
-    this.authorResources = authorResources;
+    this.authors = authors;
   }
 
 }

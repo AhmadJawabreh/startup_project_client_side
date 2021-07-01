@@ -14,7 +14,6 @@ export class DetailsComponent implements OnInit {
 
   private id: number = 0;
   public bookResource: BookResource = <BookResource>{};
-  public bookFilter: Filter =  <Filter> {};
   constructor(private bookService: BookService, private route: ActivatedRoute, private notification:NotificationManager) { }
 
   ngOnInit(): void {
@@ -23,9 +22,8 @@ export class DetailsComponent implements OnInit {
   }
 
   getDetails(){
-    this.bookFilter.authors = true;
-    this.bookFilter.publihser = true;
-    this.bookService.getExtraBookDetails(this.bookFilter,this.id).subscribe((response: any) => {
+
+    this.bookService.Details(this.id).subscribe((response: any) => {
       this.bookResource = response;
     }, (error: any) => {
       this.notification.errorMessage("Failed to fetch book data.")

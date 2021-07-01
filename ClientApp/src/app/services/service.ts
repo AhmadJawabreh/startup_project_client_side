@@ -14,8 +14,8 @@ import { AuthorModule } from '../author/author.module';
 export class Service {
   public endPoint: string = "";
 
-  constructor(public httpClient: HttpClient, @Inject(String) private serviceName: string,) {
-    this.endPoint = Config.HOST + this.serviceName;
+  constructor(public httpClient: HttpClient, @Inject(String) private host: string,) {
+    this.endPoint = this.host;
   }
 
   GetAll(filter: Filter) {

@@ -30,7 +30,6 @@ export class AddEditComponent implements OnInit {
   public bookForm: FormGroup = <FormGroup>{};
   public authors: Array<AuthorResource> = [];
   public publishers: Array<PublisherResource> = [];
-  public bookFilter: Filter =  <Filter> {};
 
 
   constructor(private bookService: BookService,
@@ -88,16 +87,15 @@ export class AddEditComponent implements OnInit {
   }
 
   getDetails(): void {
-    this.bookFilter.authors = true;
-    this.bookFilter.publihser = true;
-    this.bookService.getExtraBookDetails(this.bookFilter,this.id).subscribe((response: any) => {
+
+    this.bookService.Details(this.id).subscribe((response: any) => {
       this.bookResource = response;
       let dateString = this.bookResource["releaseDate"];
       let newDate = new Date(dateString);
       this.bookForm.patchValue({
         name: this.bookResource?.name,
         publisherId: this.bookResource.publisher?.id,
-        authorIds: this.bookResource?.authorResources,
+        authorIds: this.bookResource?.authors,
         publishDate: newDate,
       });
     }, (error: any) => {
@@ -124,9 +122,9 @@ export class AddEditComponent implements OnInit {
 
 
   public selectAuthors(value: any): void {
-    this.bookModel.AuthoIds = [];
+    this.bookModel.authorIds = [];
     value.forEach((element: any) => {
-      this.bookModel.AuthoIds.push(element.id);
+      this.bookModel.authorIds.push(element.id);
     });
   }
 
@@ -140,6 +138,8 @@ export class AddEditComponent implements OnInit {
     this.bookModel.name = this.bookForm.controls['name'].value;
     this.bookModel.releaseDate = this.bookForm.controls['publishDate'].value;
     this.bookModel.publisherId = +this.bookForm.controls['publisherId'].value;
+    console.log(this.bookModel);
+
     var datePipe = new DatePipe('en-US');
     this.bookModel.releaseDate = datePipe.transform(this.bookModel.releaseDate, 'yyyy-MM-dd') || '';
     this.isAddMode ? this.createBook() : this.updateBook();
