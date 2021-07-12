@@ -1,3 +1,4 @@
+import { PublisherResource } from './../publisher/resources/publisher.resource';
 import { Filter } from './../shared/filter';
 import { PublisherModel } from './../publisher/models/publisher.model';
 import { BookModel } from './../book/models/book.model';
@@ -18,20 +19,20 @@ export class Service {
     this.endPoint = this.host;
   }
 
-  GetAll(filter: Filter) {
-    return this.httpClient.get(this.endPoint + "?pageSize=" + filter.pageSize + "&&pageNumber=" + filter.pageNumber);
+  GetAll(filter: Filter): Observable<PublisherResource[]> {
+    return this.httpClient.get<PublisherResource[]>(this.endPoint + "?pageSize=" + filter.pageSize + "&&pageNumber=" + filter.pageNumber);
   }
 
-  Details(id: any): Observable<any> {
-    return this.httpClient.get(this.endPoint + id);
+  Details(id: any): Observable<PublisherResource>{
+    return this.httpClient.get<PublisherResource>(this.endPoint + id);
   }
 
-  Create(publisher: BookModel | PublisherModel): Observable<any> {
-    return this.httpClient.post(this.endPoint, publisher);
+  Create(publisher: BookModel |PublisherModel): Observable<PublisherModel> {
+    return this.httpClient.post<PublisherModel>(this.endPoint, publisher);
   }
 
-  Update(publisher: any): Observable<any> {
-    return this.httpClient.put(this.endPoint, publisher);
+  Update(publisher: any): Observable<PublisherModel> {
+    return this.httpClient.put<PublisherModel>(this.endPoint, publisher);
   }
 
   Delete(id: number): Observable<any> {

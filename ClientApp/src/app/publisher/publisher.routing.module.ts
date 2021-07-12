@@ -3,7 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from "@angular/core";
 import { IndexComponent } from './index/index.component';
 import { AddEditComponent } from './add-edit/add-edit.component';
-
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { publisherReducer } from './store/publisher.reducer';
+import { PublisherEffects } from './store/publisher.effects';
+import { reducers } from './store/app.state';
 const routes : Routes = [
   { path: "publisher", component: IndexComponent },
   { path: "publisher/add", component: AddEditComponent },
@@ -12,7 +16,10 @@ const routes : Routes = [
 ];
 
 @NgModule({
- imports :[RouterModule.forChild(routes)],
+ imports :[RouterModule.forChild(routes),
+  StoreModule.forRoot(reducers),
+  EffectsModule.forRoot([PublisherEffects]),
+],
  exports: [RouterModule]
 })
 

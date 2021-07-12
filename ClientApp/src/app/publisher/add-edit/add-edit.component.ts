@@ -1,10 +1,14 @@
+import { getPublisher } from './../store/publisher.selector';
+import { Observable } from 'rxjs';
+import { Location } from '@angular/common';
+import { PublisherModel } from './../models/publisher.model';
 import { PublisherResource } from './../resources/publisher.resource';
-import { PublisherService } from '../services/publisher.service';
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NotificationManager } from 'src/app/shared/notification.manager';
+import { Store } from '@ngrx/store';
+import { createPublisher, updatePublisher } from '../store/publisher.actions';
+import { AppState } from '../store/app.state';
 
 
 @Component({
@@ -14,8 +18,13 @@ import { NotificationManager } from 'src/app/shared/notification.manager';
 })
 export class AddEditComponent implements OnInit {
 
+
   public publisherResource: PublisherResource = <PublisherResource>{};
-  constructor(private route: ActivatedRoute, private publisherService: PublisherService, private notificationManager: NotificationManager, private location: Location) { }
+
+  public publisherModel: PublisherModel = <PublisherModel>{};
+
+
+  constructor(private store: Store<AppState>, private route: ActivatedRoute, private location: Location) { }
 
 
   private id: number = -1;
@@ -32,7 +41,8 @@ export class AddEditComponent implements OnInit {
     this.id = this.route.snapshot.params.id;
     this.addMode = this.id > 0 ? false : true;
     if (!this.addMode) {
-      this.getDetails();
+      this.store.select(getPublisher(this.id)).subscribe(data => this.publisherResource = data as PublisherResource);
+
       this.publisherForm.patchValue(
         {
           firstName: this.publisherResource.firstName,
@@ -46,54 +56,31 @@ export class AddEditComponent implements OnInit {
 
 
   submit(): void {
+
     if (this.publisherForm.invalid) {
       return;
     }
 
-    this.publisherResource.firstName = this.publisherForm.controls['firstName'].value;
-    this.publisherResource.lastName = this.publisherForm.controls['lastName'].value;
-    this.publisherResource.phone = this.publisherForm.controls['phone'].value;
-    this.publisherResource.email = this.publisherForm.controls['email'].value;
-    this.publisherResource.address = this.publisherForm.controls['address'].value;
+    this.publisherModel.id = this.id ?? 0;
+    this.publisherModel.firstName = this.publisherForm.controls['firstName'].value;
+    this.publisherModel.lastName = this.publisherForm.controls['lastName'].value;
+    this.publisherModel.phone = this.publisherForm.controls['phone'].value;
+    this.publisherModel.email = this.publisherForm.controls['email'].value;
+    this.publisherModel.address = this.publisherForm.controls['address'].value;
 
     this.addMode ? this.createPublisher() : this.updatePublisher();
+    this.location.back();
 
   }
 
   createPublisher(): void {
-    this.publisherService.Create(this.publisherResource).subscribe((response: any) => {
-      this.notificationManager.successMessage("A publisher created successfully.");
-      this.location.back();
-    }, (error) => {
-      this.notificationManager.errorMessage("cannot create a publisher.");
-    });
+    this.store.dispatch(createPublisher({ payload: { publisherModel: this.publisherModel } }));
   }
 
 
   updatePublisher(): void {
-    this.publisherService.Update(this.publisherResource).subscribe((response: any) => {
-      this.notificationManager.successMessage("The Publisher updated Successfully.");
-      this.location.back();
-    },
-      (error) => {
-        this.notificationManager.errorMessage("cannot update the current publisher.");
-      });
+    this.store.dispatch(updatePublisher({ payload: { publisherModel: this.publisherModel } }));
   }
 
-  getDetails(): void {
-    this.publisherService.Details(this.id).subscribe
-      (
-        (response: any) => {
-          this.publisherResource = response;
-          this.publisherForm.patchValue(
-            {
-              firstName: this.publisherResource.firstName,
-              lastName: this.publisherResource.lastName,
-              email: this.publisherResource.email,
-              phone: this.publisherResource.phone,
-              address: this.publisherResource.address
-            });
-        }
-      );
-  }
 }
+

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PublisherResource } from '../resources/publisher.resource';
-import { PublisherService } from '../services/publisher.service';
 import { Config } from 'src/app/config/config';
-import { NotificationManager } from 'src/app/shared/notification.manager';
+import { Store } from '@ngrx/store';
+import { StoreActions } from '../store/actions.app';
+import { AppState } from '../store/app.state';
+import { getPublishers } from '../store/publisher.selector';
 
 @Component({
   selector: 'app-index',
@@ -11,15 +12,23 @@ import { NotificationManager } from 'src/app/shared/notification.manager';
 })
 export class IndexComponent implements OnInit {
 
-
   public openDialog = false;
-
-  public publisherResources: Array<PublisherResource> = [];
-  constructor(private publisherService: PublisherService, private notification: NotificationManager) { }
+  public publisherResources: Array<any> = [];
+  constructor(private store: Store<AppState>) { }
 
 
   ngOnInit(): void {
-    this.getDate();
+    this.getAllPublishers();
+  }
+
+  getAllPublishers(): void {
+    this.store.dispatch(StoreActions.loadAllPublishers({ payload: { filter: Config.filter } }));
+    this.store.select(getPublishers).subscribe(data => this.publisherResources = data);
+  }
+
+  delete(id: number) {
+    this.close();
+    this.store.dispatch(StoreActions.deletePublisher({ payload: { id: id } }));
   }
 
   public close() {
@@ -29,22 +38,4 @@ export class IndexComponent implements OnInit {
   public open() {
     this.openDialog = true;
   }
-
-
-  getDate() {
-    this.publisherService.GetAll(Config.filter).subscribe((reponse: any) => {
-      this.publisherResources = reponse;
-    });
-  }
-
-  delete(id: number) {
-    this.publisherService.Delete(id).subscribe((reponse: any) => {
-      this.getDate();
-      this.close();
-      this.notification.successMessage("The Publisher deleted successfully");
-    }, (error) => {
-      this.notification.errorMessage("cannot delete a publisher.");
-    });
-  }
-
 }
