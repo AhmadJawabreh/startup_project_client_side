@@ -31,20 +31,6 @@ export class PublisherEffects {
       )
   );
 
-  loadPublisher$ = createEffect(
-    () => this.actions.pipe(
-      ofType(StoreActions.loadPublisher),
-      mergeMap((action) =>
-        this.publisherService.Details(action.payload.id).pipe(
-          map((publihser: PublisherResource) =>
-            StoreActions.publisherLoadedSuccessFully({ payload: { publisherResource: publihser } }),
-            catchError((error) =>
-              of(StoreActions.publisherLoadedFalied({ payload: { message: "can not create a publisher" } })))
-          )
-        )
-      )
-    )
-  );
 
   createPublisher$ = createEffect(
     () => this.actions.pipe(

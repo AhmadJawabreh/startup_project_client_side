@@ -24,7 +24,6 @@ export class DetailsComponent implements OnInit {
   }
 
   getPublisherDetails() {
-    this.appStore.dispatch(StoreActions.loadPublisher({ payload: { id: this.id } }))
     this.appStore.select(getPublisher(this.id)).subscribe((data) => this.publisherResource = data as PublisherResource)
   }
 

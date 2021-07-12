@@ -35,9 +35,5 @@ export const publisherReducer = createReducer(
       id: action.payload.publisherResource.id,
       changes: action.payload.publisherResource
     }, state)
-  ),
-  on(
-    StoreActions.publisherLoadedSuccessFully,
-    (state, action) => adapter.upsertOne(action.payload.publisherResource, state)
   )
 );

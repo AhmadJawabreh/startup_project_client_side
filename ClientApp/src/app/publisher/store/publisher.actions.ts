@@ -67,21 +67,3 @@ export const publisherDeletedFailed = createAction(
   "[Publisher Component][Effect][Delete][Failed]",
   props<{ payload: { erroMessage: string } }>()
 );
-
-// Load one entity.
-export const loadPublisher = createAction(
-  "[Publisher Component][Action][load]",
-  props<{ payload: { id: number } }>()
-);
-
-
-export const publisherLoadedSuccessFully = createAction(
-  "[Publisher Component][Effect][load one publisher][Success]",
-  props<{ payload: { publisherResource: PublisherResource } }>()
-);
-
-
-export const publisherLoadedFalied = createAction(
-  "[Publisher Component][Effect][load one publisher][Failed]",
-  props<{ payload: { message: string } }>()
-);
